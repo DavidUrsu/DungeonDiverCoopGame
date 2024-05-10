@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
         if (players == null)
             players = GameObject.FindGameObjectsWithTag("Player");
 
@@ -61,6 +62,8 @@ public class Enemy : MonoBehaviour
             }
 
         }
+
+
         if (agro[maxAgroIndex] != 0)
             RotateTowards(players[maxAgroIndex].transform, rotationSpeed);
 
@@ -123,9 +126,9 @@ public class Enemy : MonoBehaviour
             attackTimer = attackCooldown;
         }
     }
-    public void OnHit(float dmg)
+    public void OnHit(Player player)
     {
-        Health -= dmg * (1 - DmgReduction);
+        Health -= player.attackDmg * (1 - DmgReduction);
 
         if (Health <= 0)
         {
@@ -133,6 +136,21 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
         else
-            Debug.Log("Hit for " + dmg * (1 - DmgReduction) + " " + Health + " left");
+        {
+            Debug.Log("Hit for " + player.attackDmg * (1 - DmgReduction) + " " + Health + " left");
+
+            for(int i = 0; i < players.Length;i++)
+            {
+                Player playerOnObj = players[i].GetComponent<Player>();
+
+                if (playerOnObj == player)
+                {
+                    agro[i] += (int)(100 * player.attackDmg);
+                    Debug.Log(agro[i] + "HIT");
+                }
+                    
+            }
+        }
+
     }
 }

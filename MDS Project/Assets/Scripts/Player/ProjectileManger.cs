@@ -25,7 +25,7 @@ public class ProjectileManger : MonoBehaviour
 
         if (enemy != null)
         {
-            collision.gameObject.SendMessage("OnHit", player.attackDmg);
+            collision.gameObject.SendMessage("OnHit", player);
         }
         Destroy(gameObject);
     }

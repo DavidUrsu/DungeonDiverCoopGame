@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class MeleManager : MonoBehaviour
@@ -25,7 +26,7 @@ public class MeleManager : MonoBehaviour
         var enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
-            collision.gameObject.SendMessage("OnHit", player.attackDmg);
+            collision.gameObject.SendMessage("OnHit", player);
             Debug.Log("Hit Something");
         }
 
