@@ -18,16 +18,28 @@ public class PlayerController : MonoBehaviour
     readonly bool[] useItems = new bool[4];
     public float forceDamping;
 
+
+    public GameObject mainCamera;
+
     private void Start()
     {
         cls = gameObject.GetComponent<Player>();
 
         for(int i = 0;i<4;i++)
             useItems[i] = false;
-    }
+
+		// Set the camera's parent to the player object
+		mainCamera.transform.SetParent(transform);
+
+		// Position the camera relative to the player
+		mainCamera.transform.localPosition = new Vector3(0, 0, 0);
+
+		// Set the camera's rotation
+		mainCamera.transform.localRotation = Quaternion.Euler(0, 0, 0);
+	}
 
 
-    void Update()
+	void Update()
     {
         if (!IsKnocked)
             PlayerInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
@@ -75,6 +87,10 @@ public class PlayerController : MonoBehaviour
             dashTimer = 0;
         if (dashT < 0)
             dashT = 0;
+
+        // lock the camera to the player
+        mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+        mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
     void FixedUpdate()
     {

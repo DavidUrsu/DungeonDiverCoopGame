@@ -5,10 +5,14 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 // !TODO de facut ca camere sa fie unice
+// !TODO daca un perete e la margine nu se plaseaza ca iese din harta
 public class DungeonGenerator : MonoBehaviour
 {
 	// Scene tilemap
 	public Tilemap sceneTilemap;
+
+	// Wall tilemap
+	public Tilemap wallTilemap;
 
 	// Debug tileBase
 	public TileBase pathTile;
@@ -51,6 +55,49 @@ public class DungeonGenerator : MonoBehaviour
 
 	// Tile dictionary
 	Dictionary<string, List<TileBase>> tileDictionary;
+
+	// Players
+	public GameObject players;
+
+	public class RoomData
+	{
+		public string RoomType { get; set; }
+		public int DistanceFromStart { get; set; }
+		public List<Vector2Int> TilePositions { get; set; }
+		public int ID { get; private set; }
+
+		private static int nextID = 0;
+
+		public RoomData(string roomType, int distanceFromStart = 0, List<Vector2Int> tilePositions = null)
+		{
+			RoomType = roomType;
+			DistanceFromStart = distanceFromStart;
+			TilePositions = tilePositions ?? new List<Vector2Int>();
+			ID = nextID++;
+		}
+
+		public void AddTilePosition(Vector2Int tilePosition)
+		{
+			TilePositions.Add(tilePosition);
+		}
+
+		public void AddTilePositions(List<Vector2Int> tilePositions)
+		{
+			TilePositions.AddRange(tilePositions);
+		}
+
+		public void SetTilePositions(List<Vector2Int> tilePositions)
+		{
+			TilePositions = tilePositions;
+		}
+
+		public void SetDistanceFromStart(int distanceFromStart)
+		{
+			DistanceFromStart = distanceFromStart;
+		}
+	}
+
+	public List<RoomData> roomsData = new List<RoomData>();
 
 	// Choose a random room from the array and remove it from the array
 	// Return the room
@@ -128,27 +175,6 @@ public class DungeonGenerator : MonoBehaviour
 		}
 
 		return false;
-	}
-
-	public void MarkOccipiedCells(GameObject roomPrefab, Vector3 position, int mapSymbol = 1)
-	{
-		// Get the size of the room
-		var roomSize = roomPrefab.GetComponent<RoomData>().roomSize;
-
-		Vector3 roomMax = position + roomSize;
-
-		// Iterate over the cells of the map array
-		for (int x = (int)position.x; x < (int)roomMax.x; x++)
-		{
-			for (int y = (int)position.y; y < (int)roomMax.y; y++)
-			{
-				// Check if the current cell is within the bounds of the map
-				if (x >= 0 && x < SizeX && y >= 0 && y < SizeY)
-				{
-					mapArray[x][y] = mapSymbol;
-				}
-			}
-		}
 	}
 
 	public void DrawTheRoomOnTheTileMap(GameObject roomPrefab, Vector3 position)
@@ -343,6 +369,11 @@ public class DungeonGenerator : MonoBehaviour
 			{
 				if (!visited.Contains(new Vector2Int(i, j)) && mapArray[i][j] != 0)
 				{
+					// Get the cell type
+					string roomType = sceneTilemap.GetTile(new Vector3Int(i, j, 0)).name;
+
+					// Add the room to the list of rooms
+					roomsData.Add(new RoomData(roomType));
 
 					numberOfRooms++;
 					int X = 0;
@@ -358,6 +389,7 @@ public class DungeonGenerator : MonoBehaviour
 							continue;
 						}
 						visited.Add(currentCell);
+						roomsData[numberOfRooms - 1].AddTilePosition(currentCell);
 
 						X += currentCell.x;
 						Y += currentCell.y;
@@ -531,13 +563,15 @@ public class DungeonGenerator : MonoBehaviour
 	public void PaintTheTile(string tileName, Vector3 position, string type)
 	{
 		List<TileBase> tiles;
+		Tilemap targetTilemap = sceneTilemap; // Default to the sceneTilemap
+
 		// If it is a top, also use the top files and the wall files
 		if (type == "top")
 		{
 			// Check if the tile exists in the dictionary
 			if (tileDictionary.ContainsKey(tileName + "_top"))
 			{
-				// Choose with a 30% to keep a top tile
+				// Choose with a 15% to keep a top tile
 				if (Random.Range(0, 100) > 15)
 				{
 					type = "wall";
@@ -546,6 +580,11 @@ public class DungeonGenerator : MonoBehaviour
 			{
 				type = "wall";
 			}
+		}
+
+		if (type == "wall")
+		{
+			targetTilemap = wallTilemap; // Use the wallTilemap for wall tiles
 		}
 
 		// Check if the tile exists in the dictionary
@@ -559,7 +598,7 @@ public class DungeonGenerator : MonoBehaviour
 
 		// Choose a random tile from the list
 		int randomIndex = Random.Range(0, tiles.Count);
-		sceneTilemap.SetTile(new Vector3Int((int)position.x, (int)position.y, 0), tileDictionary[tileName + "_" + type][randomIndex]);
+		targetTilemap.SetTile(new Vector3Int((int)position.x, (int)position.y, 0), tileDictionary[tileName + "_" + type][randomIndex]);
 	}
 
 	public Tilemap CopyOfTheTileMap()
@@ -644,6 +683,48 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
+	public List<Vector2> GetPositionsToSpawnPlayers(int numberOfPlayers)
+	{
+		// Find the Spawn Room in the roomsData
+		RoomData spawnRoom = roomsData.Find(room => room.RoomType == "Spawn");
+
+		List<Vector2> spawnRoomPositions = new List<Vector2>();
+
+		while (spawnRoomPositions.Count < numberOfPlayers)
+		{
+			// Choose a random position from the room
+			int randomIndex = Random.Range(0, spawnRoom.TilePositions.Count);
+			Vector2 position = spawnRoom.TilePositions[randomIndex];
+
+			// Check if the position is already occupied
+			if (spawnRoomPositions.Contains(position))
+			{
+				continue;
+			}
+
+			spawnRoomPositions.Add(position);
+		}
+
+		return spawnRoomPositions;
+	}
+
+	public void SpawnPlayers()
+	{
+		// Get the number of players
+		int numberOfPlayers = players.transform.childCount;
+
+		// Get the positions to spawn the players
+		List<Vector2> spawnPositions = GetPositionsToSpawnPlayers(numberOfPlayers);
+
+		// Spawn the players
+		for (int i = 0; i < numberOfPlayers; i++)
+		{
+			Debug.Log(spawnPositions[i]);
+			Transform player = players.transform.GetChild(i);
+			player.position = new Vector3(spawnPositions[i].x, spawnPositions[i].y, 0);
+		}
+	}
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -695,6 +776,9 @@ public class DungeonGenerator : MonoBehaviour
 		// Paint the map with the tiles
 		LoadTiles();
 		PaintTheMap();
+
+		// Set the spawn point of the players
+		SpawnPlayers();
 
 		stopwatch.Stop();
 		Debug.Log($"Generation time: {stopwatch.ElapsedMilliseconds} ms");
