@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown,dashTimer = 0, dashDuration,dashT = 0,attackTimer = 0,  abilityTimer = 0;
     Vector2 forceToApply;
     Vector2 PlayerInput, PlayerInputDash;
+    public GameObject inventoryManager;
     bool IsKnocked = false, wantDash = false;
     bool doAttack = false , doAbility = false;
     readonly bool[] useItems = new bool[4];
@@ -41,6 +42,8 @@ public class PlayerController : MonoBehaviour
             dashT = dashDuration;
             wantDash = true;
         }
+        
+
         //Left click
         if (!IsKnocked && Input.GetMouseButtonDown(0) && attackTimer <= 0)
         {
@@ -137,14 +140,19 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var knockback = collision.gameObject.GetComponent<Knockback>();
-
-        Debug.Log("Collision detected");
+        var lootColected = collision.gameObject.GetComponent<LootObject>();
         
         if (knockback != null)
         {
+            Debug.Log("Collision detected");
             IsKnocked = true;
             Vector2 dir = (collision.otherCollider.transform.position - collision.transform.position).normalized;
             forceToApply += dir * knockback.force ;
+        }
+        if (lootColected != null)
+        {
+            Debug.Log("Item collected");
+            lootColected.collected();
         }
     }
 
