@@ -59,6 +59,8 @@ public class DungeonGenerator : MonoBehaviour
 	// Players
 	public GameObject players;
 
+	public GameObject enemy;
+
 	public class RoomData
 	{
 		public string RoomType { get; set; }
@@ -725,6 +727,31 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
+	public void SpawnEnemies()
+	{
+		// Iterate over the rooms
+		// If the type of the room is "Enemy", select numberOfTiles/6 random tiles and spawn an enemy on each of them
+
+		foreach (RoomData room in roomsData)
+		{
+			if (room.RoomType == "Enemy")
+			{
+				int numberOfTiles = room.TilePositions.Count;
+				int numberOfEnemies = numberOfTiles / 10;
+
+				for (int i = 0; i < numberOfEnemies; i++)
+				{
+					// Choose a random position from the room
+					int randomIndex = Random.Range(0, room.TilePositions.Count);
+					Vector2 position = room.TilePositions[randomIndex];
+
+					// Spawn the enemy
+					Instantiate(enemy, new Vector3(position.x, position.y, 0), Quaternion.identity);
+				}
+			}
+		}
+	}
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -779,6 +806,9 @@ public class DungeonGenerator : MonoBehaviour
 
 		// Set the spawn point of the players
 		SpawnPlayers();
+
+		// Spawn the enemies
+		SpawnEnemies();
 
 		stopwatch.Stop();
 		Debug.Log($"Generation time: {stopwatch.ElapsedMilliseconds} ms");
