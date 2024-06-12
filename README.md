@@ -8,7 +8,7 @@
 - [x]  **Click stanga**, **click dreapta** (Atac, Abilitate)
 
 ## Health System
-- []  **Potions** (din shop sau craft)
+- [x]  **Potions** (din shop sau craft)
 
 ## Class System
 - [x]  **Tank**: bucata melee si taunt
@@ -18,7 +18,7 @@
 
 ## Enemies (Agro System)
 - [x]  Putina viata, multi si mic, damage putin
-- []  Multa viata, putini si mari, damage mare
+- [x]  Multa viata, putini si mari, damage mare
 - []  Viata medie, viteza medie, de distanta, damage mediu
 
 ## Loot (Gold and Crafting Mats)
@@ -42,7 +42,7 @@
 # Dungeons
 
 ## Room Design
-- []  Shop
+- [x]  Shop
 - []  Boss fight- [] uri
 - [x]  Exit room
 - [x]  Start Room
