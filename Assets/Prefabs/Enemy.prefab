@@ -150,13 +150,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b6bc736b99ca648b230ce2b7f2957e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 20
-  DmgReduction: 0.225
+  MaxHealth: 0
+  CurrentHealth: 0
+  AttackDamage: 0
+  DamageReduction: 0
+  AbilityDamage: 0
   MoveSpeed: 2
-  rotationSpeed: 0.1
-  Dmg: 10
+  AttackCooldown: 0
+  AbilityCooldown: 0
+  effects: []
   attackTimer: 0
-  attackCooldown: 1
+  players:
+  - {fileID: 686822853950053168, guid: 82a571b35002e9a4faad99fe8ba8c9e2, type: 3}
+  agro: 
 --- !u!50 &8832228140991028895
 Rigidbody2D:
   serializedVersion: 4

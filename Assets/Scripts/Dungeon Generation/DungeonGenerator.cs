@@ -59,6 +59,10 @@ public class DungeonGenerator : MonoBehaviour
 	// Players
 	public GameObject players;
 
+	public GameObject buyableItemPrefab;
+
+	public GameObject[] shopKeepers;
+
 	public GameObject enemy;
 
 	public class RoomData
@@ -721,7 +725,7 @@ public class DungeonGenerator : MonoBehaviour
 		// Spawn the players
 		for (int i = 0; i < numberOfPlayers; i++)
 		{
-			Debug.Log(spawnPositions[i]);
+			//Debug.Log(spawnPositions[i]);
 			Transform player = players.transform.GetChild(i);
 			player.position = new Vector3(spawnPositions[i].x, spawnPositions[i].y, 0);
 		}
@@ -748,6 +752,36 @@ public class DungeonGenerator : MonoBehaviour
 					// Spawn the enemy
 					Instantiate(enemy, new Vector3(position.x, position.y, 0), Quaternion.identity);
 				}
+			}
+		}
+	}
+
+	public void GenerateShopItems()
+	{
+		foreach (RoomData room in roomsData)
+		{
+			if (room.RoomType == "Shop")
+			{
+				// Spawn a random number of shop items
+				int numberOfItems = Random.Range(1, 4);
+				for(int i = 0; i < numberOfItems; i++)
+				{
+					// Choose a random position from the room
+					int randomIndex = Random.Range(0, room.TilePositions.Count);
+					Vector2 position = room.TilePositions[randomIndex];
+
+					// Spawn the shop item
+					GameObject newBuyableItems = Instantiate(buyableItemPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+				}
+
+				// spawn the shopkeeper
+				int randomIndexShopKeeper = Random.Range(0, shopKeepers.Length);
+				// Choose a random position from the room
+				int randomTileIndex = Random.Range(0, room.TilePositions.Count);
+				Vector2 positionShopKeeper = room.TilePositions[randomTileIndex];
+
+				// Spawn the shopkeeper
+				GameObject shopKeeper = Instantiate(shopKeepers[randomIndexShopKeeper], new Vector3(positionShopKeeper.x, positionShopKeeper.y, 0), Quaternion.identity);
 			}
 		}
 	}
@@ -798,7 +832,8 @@ public class DungeonGenerator : MonoBehaviour
 
 		GeneratePathsBetweenRooms();
 
-		PrintMapArray();
+		// For debug purposes print the map array to a .txt file
+		// PrintMapArray();
 
 		// Paint the map with the tiles
 		LoadTiles();
@@ -807,8 +842,11 @@ public class DungeonGenerator : MonoBehaviour
 		// Set the spawn point of the players
 		SpawnPlayers();
 
+		// Generate shop items
+		GenerateShopItems();
+
 		// Spawn the enemies
-		SpawnEnemies();
+		// SpawnEnemies();
 
 		stopwatch.Stop();
 		Debug.Log($"Generation time: {stopwatch.ElapsedMilliseconds} ms");
