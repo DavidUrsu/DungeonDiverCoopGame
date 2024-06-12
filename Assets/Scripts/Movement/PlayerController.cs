@@ -4,25 +4,24 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Moveable
 {
     //I recommend 7 for the move speed, and 1.2 for the force damping
     public Rigidbody2D rb;
     private Player cls;
     public float  dashSpeed;
     public float dashCooldown,dashTimer = 0, dashDuration,dashT = 0,attackTimer = 0,  abilityTimer = 0;
-    Vector2 forceToApply;
     Vector2 PlayerInput, PlayerInputDash;
-    bool IsKnocked = false, wantDash = false;
+    bool  wantDash = false;
     bool doAttack = false , doAbility = false;
     readonly bool[] useItems = new bool[4];
-    public float forceDamping;
 
 
     public GameObject mainCamera;
 
     private void Start()
     {
+        Initialize();
         cls = gameObject.GetComponent<Player>();
 
         for(int i = 0;i<4;i++)
@@ -41,12 +40,14 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
     {
-        if (!IsKnocked)
+        cls.ProcessEffects();
+
+        if (IsKnocked == 0 && IsFrozen == 0)
             PlayerInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         else
             PlayerInput = Vector2.zero;
 
-        if ( Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0 && !IsKnocked)
+        if ( Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0 && IsKnocked == 0 && IsFrozen == 0)
         {
             PlayerInputDash = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
             dashTimer = dashCooldown;
@@ -54,20 +55,20 @@ public class PlayerController : MonoBehaviour
             wantDash = true;
         }
         //Left click
-        if (!IsKnocked && Input.GetMouseButtonDown(0) && attackTimer <= 0)
+        if ( IsFrozen == 0 && IsKnocked == 0 && Input.GetMouseButtonDown(0) && attackTimer <= 0)
         {
             doAttack = true;
-            attackTimer = cls.attackCooldown;
+            attackTimer = cls.AttackCooldown;
         }
         //RightClick
-        if(!IsKnocked && Input.GetMouseButtonDown(1) && abilityTimer <= 0)
+        if(IsFrozen == 0 && IsKnocked == 0 && Input.GetMouseButtonDown(1) && abilityTimer <= 0)
         {
             doAbility = true;
-            abilityTimer = cls.abilityCooldown;
+            abilityTimer = cls.AbilityCooldown;
         }
 
         for(int i = 0;i<4;i++)
-            if(!IsKnocked && Input.GetKeyDown("" + (i+1)))
+            if(IsFrozen == 0 && IsKnocked == 0 && Input.GetKeyDown("" + (i+1)))
             {
                 useItems[i] = true;
             }
@@ -102,6 +103,8 @@ public class PlayerController : MonoBehaviour
             {
                 useItems[i] = false;
                 Debug.Log("Use Item on Slot " + (i+1));
+                if (i == 0)
+                    cls.AddEffect(new Freeze());
             }
         }
 
@@ -115,13 +118,13 @@ public class PlayerController : MonoBehaviour
         if (doAbility) 
         {
             doAbility = false;
-            Debug.Log("Ability");
+            cls.Ability();
         }
 
         if (wantDash)
         {
             
-            if (dashT > 0 && !IsKnocked)
+            if (dashT > 0 && IsKnocked == 0)
             {
                 moveForce = PlayerInputDash * dashSpeed;
             }
@@ -132,14 +135,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            moveForce = PlayerInput * cls.moveSpeed;
+            moveForce = PlayerInput * cls.MoveSpeed;
         }
 
         moveForce += forceToApply;
         forceToApply /= forceDamping;
         if (Mathf.Abs(forceToApply.x) <= 0.1f && Mathf.Abs(forceToApply.y) <= 0.1f)
         {
-            IsKnocked = false;     
+            IsKnocked = 0;     
         }
         if (Mathf.Abs(forceToApply.x) <= 0.01f && Mathf.Abs(forceToApply.y) <= 0.01f)
         {
@@ -148,20 +151,6 @@ public class PlayerController : MonoBehaviour
         rb.velocity = moveForce;
 
         faceMouse();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var knockback = collision.gameObject.GetComponent<Knockback>();
-
-        Debug.Log("Collision detected");
-        
-        if (knockback != null)
-        {
-            IsKnocked = true;
-            Vector2 dir = (collision.otherCollider.transform.position - collision.transform.position).normalized;
-            forceToApply += dir * knockback.force ;
-        }
     }
 
     void faceMouse()

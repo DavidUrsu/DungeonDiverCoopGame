@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Player : MonoBehaviour
+public abstract class Player : Buffable
 {
-    public float health, attackDmg,abilityDmg,dmgRed,moveSpeed, attackCooldown, abilityCooldown;
-
     public abstract void Attack();
 
     public abstract void Ability();
 
     public void HitByEnemy(float dmg)
     {
-        health -= dmg * (1 - dmgRed);
-        Debug.Log("Player has " + health + "Health remaning");
-        if (health <= 0)
+        CurrentHealth -= dmg * (1 - DamageReduction);
+        Debug.Log("Player has " + CurrentHealth + "Health remaning");
+        if (CurrentHealth <= 0)
             Destroy(gameObject);
     }
 }
