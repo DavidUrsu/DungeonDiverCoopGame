@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Buffable
 {
-    public float Health, DmgReduction, MoveSpeed = 1f, rotationSpeed = 0.1f, Dmg = 10f, attackTimer = 0f, attackCooldown = 1f;
-    private GameObject[] players;
-    private int[] agro;
+    public float  attackTimer = 0f;
+    public GameObject[] players;
+    public int[] agro;
     private float[] dist;
     private int maxAgro = 0, maxAgroIndex;
-    private Rigidbody2D rb;
-    private int IsKnocked = 0;
-    private float damping = 1.2f;
-    private Vector2 force;
+    private EnemyController controller;
+
 
     public void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        MaxHealth = 150;
+        CurrentHealth = MaxHealth;
+        AbilityDamage = 0;
+        AttackDamage = 15;
+        MoveSpeed = 2f;
+        DamageReduction = 0.05f;
+        AttackCooldown = 1f;
+        AbilityCooldown = 0f;
 
-        if (players == null)
-            players = GameObject.FindGameObjectsWithTag("Player");
+
+        controller = GetComponent<EnemyController>();
+        controller.MoveSpeed = MoveSpeed;
+        players = GameObject.FindGameObjectsWithTag("Player");
 
         agro = new int[players.Length];
         dist = new float[players.Length];
@@ -29,6 +36,7 @@ public class Enemy : MonoBehaviour
     {
         //Calculate agro based on distance to players
         //Get the index of the player with max agro in order to follow him
+        ProcessEffects();
         for (int i = 0; i < players.Length; i++) 
         {
             if (players[i] != null)
@@ -62,10 +70,8 @@ public class Enemy : MonoBehaviour
             }
 
         }
-
-
         if (agro[maxAgroIndex] != 0)
-            RotateTowards(players[maxAgroIndex].transform, rotationSpeed);
+            controller.Target = players[maxAgroIndex];
 
         attackTimer -= Time.deltaTime;
         if (attackTimer < 0)
@@ -73,71 +79,29 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        if (agro[maxAgroIndex] != 0)
-            rb.velocity = new Vector2(transform.up.x,transform.up.y) * MoveSpeed * (IsKnocked ^ 1) + force;
 
-        force /= damping;
-        if (Mathf.Abs(force.x) <= 0.1f && Mathf.Abs(force.y) <= 0.1f)
-        {
-            IsKnocked = 0;
-        }
-        if (Mathf.Abs(force.x) <= 0.01f && Mathf.Abs(force.y) <= 0.01f)
-        {
-            force = Vector2.zero;
-        }
-
-    }
-
-    private void RotateTowards(Transform target,float roatationSpeed)
-    {
-        Vector2 targetDirection = target.position - transform.position;
-        float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
-        Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
-
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, q , roatationSpeed);
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var knockback = collision.gameObject.GetComponent<Knockback>();
-
-
-        Debug.Log("Collision detected Enemy");
-
-        if (knockback != null)
-        {
-            IsKnocked = 1;
-            Vector2 dir = (collision.otherCollider.transform.position - collision.transform.position).normalized;
-            force += dir * knockback.force;
-            Debug.Log(force);
-        }
-
-    }
     private void OnCollisionStay2D(Collision2D collision)
     {
         var player = collision.gameObject.GetComponent<Player>();
 
-        if (player != null && IsKnocked == 0 && attackTimer <= 0) 
+        if (player != null && controller.IsKnocked == 0 && attackTimer <= 0) 
         { 
-            collision.gameObject.SendMessage("HitByEnemy", Dmg);
-            attackTimer = attackCooldown;
+            collision.gameObject.SendMessage("HitByEnemy", AttackDamage);
+            attackTimer = AttackCooldown;
         }
     }
     public void OnHit(Player player)
     {
-        Health -= player.attackDmg * (1 - DmgReduction);
+        CurrentHealth -= player.AttackDamage * (1 - DamageReduction);
 
-        if (Health <= 0)
+        if (CurrentHealth <= 0)
         {
             Debug.Log("Bleeah");
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("Hit for " + player.attackDmg * (1 - DmgReduction) + " " + Health + " left");
+            Debug.Log("Hit for " + player.AttackDamage * (1 - DamageReduction) + " " + CurrentHealth + " left");
 
             for(int i = 0; i < players.Length;i++)
             {
@@ -145,10 +109,38 @@ public class Enemy : MonoBehaviour
 
                 if (playerOnObj == player)
                 {
-                    agro[i] += (int)(100 * player.attackDmg);
+                    agro[i] += (int)(100 * player.AttackDamage);
                     Debug.Log(agro[i] + "HIT");
                 }
                     
+            }
+        }
+
+    }
+
+    public void OnHitAbility(Player player)
+    {
+        CurrentHealth -= player.AbilityDamage * (1 - DamageReduction);
+
+        if (CurrentHealth <= 0)
+        {
+            Debug.Log("Bleeah");
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log("Hit for " + player.AbilityDamage * (1 - DamageReduction) + " " + CurrentHealth + " left");
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                Player playerOnObj = players[i].GetComponent<Player>();
+
+                if (playerOnObj == player)
+                {
+                    agro[i] += (int)(100 * player.AbilityDamage);
+                    Debug.Log(agro[i] + "HIT");
+                }
+
             }
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,16 @@ using UnityEngine;
 public class Knight :Player
 {
     public MeleManager manager;
-
     public void Start()
     {
-        attackCooldown = 0.8f;
-        abilityCooldown = 3f;
-        moveSpeed = 5;
+        MaxHealth = 200f;
+        CurrentHealth = MaxHealth;
+        DamageReduction = 0.3f;
+        AttackDamage = 25f;
+        AbilityDamage = 0f;
+        AttackCooldown = 0.8f;
+        AbilityCooldown = 3f;
+        MoveSpeed = 5f;
     }
     public void Ena()
     {
@@ -19,12 +24,24 @@ public class Knight :Player
     public override void Attack()
     {
         manager.enabled = true;
-        Invoke(nameof(Ena),attackCooldown);
+        Invoke(nameof(Ena),AttackCooldown);
             
     }
 
     public override void Ability()
     {
-        throw new System.NotImplementedException();
+        Enemy[] enemys = GameObject.FindObjectsOfType<Enemy>();
+
+        foreach(Enemy enemy in enemys) 
+        {
+            float dist = Vector2.Distance(transform.position, enemy.transform.position);
+ 
+            if (dist <= 7) 
+            {
+                int index = Array.IndexOf(enemy.players, gameObject);
+                Debug.Log("Hit by taunt " + dist);
+                enemy.agro[index] += 10000;
+            }
+        }
     }
 }

@@ -5,13 +5,19 @@ using UnityEngine;
 public class Mage : Player
 {
     public GameObject fireballPrefab;
+    public GameObject AbilityFireballPrefab;
     public Transform firingPoint;
     private ProjectileManger manager;
     void Start()
     {
-        attackCooldown = 0.6f;
-        abilityCooldown = 3f;
-        moveSpeed = 5;
+        MaxHealth = 100f;
+        CurrentHealth = MaxHealth;
+        DamageReduction = 0.1f;
+        AttackDamage = 40f;
+        AbilityDamage = 70f;
+        AttackCooldown = 0.6f;
+        AbilityCooldown = 3f;
+        MoveSpeed = 5;
     }
 
     public override void Attack()
@@ -23,6 +29,8 @@ public class Mage : Player
 
     public override void Ability()
     {
-        throw new System.NotImplementedException();
+        GameObject abilityFireball = Instantiate(AbilityFireballPrefab, firingPoint.position, firingPoint.rotation);
+        manager = abilityFireball.GetComponent<ProjectileManger>();
+        manager.player = this;
     }
 }
