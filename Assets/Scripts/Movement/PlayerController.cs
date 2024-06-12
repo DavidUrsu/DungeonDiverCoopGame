@@ -16,6 +16,9 @@ public class PlayerController : Moveable
     bool doAttack = false , doAbility = false;
     readonly bool[] useItems = new bool[4];
 
+
+    public GameObject mainCamera;
+
     private void Start()
     {
         Initialize();
@@ -23,10 +26,19 @@ public class PlayerController : Moveable
 
         for(int i = 0;i<4;i++)
             useItems[i] = false;
-    }
+
+		// Set the camera's parent to the player object
+		mainCamera.transform.SetParent(transform);
+
+		// Position the camera relative to the player
+		mainCamera.transform.localPosition = new Vector3(0, 0, 0);
+
+		// Set the camera's rotation
+		mainCamera.transform.localRotation = Quaternion.Euler(0, 0, 0);
+	}
 
 
-    void Update()
+	void Update()
     {
         cls.ProcessEffects();
 
@@ -76,6 +88,10 @@ public class PlayerController : Moveable
             dashTimer = 0;
         if (dashT < 0)
             dashT = 0;
+
+        // lock the camera to the player
+        mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+        mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
     void FixedUpdate()
     {
