@@ -14,14 +14,9 @@ public class Enemy : Buffable
 
     public void Start()
     {
-        MaxHealth = 150;
+
         CurrentHealth = MaxHealth;
-        AbilityDamage = 0;
-        AttackDamage = 15;
-        MoveSpeed = 2f;
-        DamageReduction = 0.05f;
-        AttackCooldown = 1f;
-        AbilityCooldown = 0f;
+
 
 
         controller = GetComponent<EnemyController>();

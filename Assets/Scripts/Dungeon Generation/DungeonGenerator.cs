@@ -59,7 +59,7 @@ public class DungeonGenerator : MonoBehaviour
 	// Players
 	public GameObject players;
 
-	public GameObject enemy;
+	public GameObject[] enemys;
 
 	public class RoomData
 	{
@@ -710,6 +710,7 @@ public class DungeonGenerator : MonoBehaviour
 		return spawnRoomPositions;
 	}
 
+
 	public void SpawnPlayers()
 	{
 		// Get the number of players
@@ -727,7 +728,16 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
-	public void SpawnEnemies()
+    public int GenerateRandomEnemy()
+    {
+		int num = Random.Range(0, 100);
+
+		if (num < 25)
+			return 1;
+
+        return 0;
+    }
+    public void SpawnEnemies()
 	{
 		// Iterate over the rooms
 		// If the type of the room is "Enemy", select numberOfTiles/6 random tiles and spawn an enemy on each of them
@@ -746,7 +756,7 @@ public class DungeonGenerator : MonoBehaviour
 					Vector2 position = room.TilePositions[randomIndex];
 
 					// Spawn the enemy
-					Instantiate(enemy, new Vector3(position.x, position.y, 0), Quaternion.identity);
+					Instantiate(enemys[GenerateRandomEnemy()], new Vector3(position.x, position.y, 0), Quaternion.identity);
 				}
 			}
 		}

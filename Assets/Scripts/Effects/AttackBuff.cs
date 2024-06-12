@@ -20,7 +20,6 @@ public class AttackBuff : Effect
     }
     public override void DoEffect()
     {
-        Debug.Log(currentDuration);
         if (currentDuration <= 0) 
         {
             target.AttackDamage -= amountAttack;

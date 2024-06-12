@@ -25,7 +25,6 @@ public class Burn : Effect
 
               lastTick = currentDuration;
               target.CurrentHealth -= damagePerTick * (1 - target.DamageReduction);
-              Debug.Log("Hit for " + damagePerTick + "at tick " + lastTick);
 
               if(target.CurrentHealth <= 0)
                 {

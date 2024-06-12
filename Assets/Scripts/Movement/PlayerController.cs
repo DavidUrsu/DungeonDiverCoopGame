@@ -22,7 +22,10 @@ public class PlayerController : Moveable
     private void Start()
     {
         Initialize();
+
         cls = gameObject.GetComponent<Player>();
+
+        cls.InitializeInventory();
 
         for(int i = 0;i<4;i++)
             useItems[i] = false;
@@ -41,12 +44,12 @@ public class PlayerController : Moveable
 	void Update()
     {
         cls.ProcessEffects();
-
+        //WASD
         if (IsKnocked == 0 && IsFrozen == 0)
             PlayerInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         else
             PlayerInput = Vector2.zero;
-
+        //Dash
         if ( Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0 && IsKnocked == 0 && IsFrozen == 0)
         {
             PlayerInputDash = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
@@ -60,13 +63,13 @@ public class PlayerController : Moveable
             doAttack = true;
             attackTimer = cls.AttackCooldown;
         }
-        //RightClick
+        //Right click
         if(IsFrozen == 0 && IsKnocked == 0 && Input.GetMouseButtonDown(1) && abilityTimer <= 0)
         {
             doAbility = true;
             abilityTimer = cls.AbilityCooldown;
         }
-
+        //Potion usage
         for(int i = 0;i<4;i++)
             if(IsFrozen == 0 && IsKnocked == 0 && Input.GetKeyDown("" + (i+1)))
             {
@@ -74,7 +77,7 @@ public class PlayerController : Moveable
             }
 
 
-
+        //Taking care of cooldowns
         dashTimer -= Time.deltaTime;
         dashT -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
@@ -97,30 +100,35 @@ public class PlayerController : Moveable
     {
         Vector2 moveForce = new Vector2();
 
+        //Item usage
         for (int i = 0; i < 4;i++)
         {
             if (useItems[i])
             {
                 useItems[i] = false;
-                Debug.Log("Use Item on Slot " + (i+1));
-                if (i == 0)
-                    cls.AddEffect(new Freeze());
+                try
+                {
+                    cls.UsePotion(i);
+                }catch(Exception exe)
+                {
+                    Debug.LogException(exe);
+                }
             }
         }
 
-
+        //atack
         if(doAttack)
         {
             doAttack = false;
             cls.Attack();
         }
-
+        //ability
         if (doAbility) 
         {
             doAbility = false;
             cls.Ability();
         }
-
+        //dash
         if (wantDash)
         {
             
@@ -138,6 +146,7 @@ public class PlayerController : Moveable
             moveForce = PlayerInput * cls.MoveSpeed;
         }
 
+        //Taking care of knockback
         moveForce += forceToApply;
         forceToApply /= forceDamping;
         if (Mathf.Abs(forceToApply.x) <= 0.1f && Mathf.Abs(forceToApply.y) <= 0.1f)
