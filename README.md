@@ -1,4 +1,3 @@
-```markdown
 # Core Mechanics
 
 ## Movement
