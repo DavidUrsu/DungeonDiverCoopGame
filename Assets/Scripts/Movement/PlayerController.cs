@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : Moveable
 {
@@ -16,6 +17,7 @@ public class PlayerController : Moveable
     bool doAttack = false , doAbility = false;
     readonly bool[] useItems = new bool[4];
 
+    public Image healthBar;
 
     public GameObject mainCamera;
 
@@ -27,7 +29,7 @@ public class PlayerController : Moveable
 
         cls.InitializeInventory();
 
-        for(int i = 0;i<4;i++)
+        for (int i = 0;i<4;i++)
             useItems[i] = false;
 
 		// Set the camera's parent to the player object
@@ -95,6 +97,9 @@ public class PlayerController : Moveable
         // lock the camera to the player
         mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
         mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+
+        //update healthbar
+        healthBar.fillAmount = cls.CurrentHealth / cls.MaxHealth;
     }
     void FixedUpdate()
     {

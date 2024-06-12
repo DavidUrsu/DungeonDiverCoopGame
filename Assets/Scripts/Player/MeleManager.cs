@@ -24,10 +24,10 @@ public class MeleManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var enemy = collision.gameObject.GetComponent<Enemy>();
+
         if (enemy != null)
         {
             collision.gameObject.SendMessage("OnHit", player);
-            Debug.Log("Hit Something");
         }
 
     }

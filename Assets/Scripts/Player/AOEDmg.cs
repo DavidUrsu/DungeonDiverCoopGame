@@ -9,7 +9,7 @@ public class AOEDmg : MonoBehaviour
     {
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-        if(enemy != null )
+        if (enemy != null )
         {
             collision.gameObject.SendMessage("OnHitAbility", player);
         }

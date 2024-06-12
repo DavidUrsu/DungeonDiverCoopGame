@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : Buffable
 {
@@ -10,6 +11,8 @@ public class Enemy : Buffable
     private float[] dist;
     private int maxAgro = 0, maxAgroIndex;
     private EnemyController controller;
+
+    public Image healthBar;
 
 
     public void Start()
@@ -111,6 +114,8 @@ public class Enemy : Buffable
             }
         }
 
+        healthBar.fillAmount = CurrentHealth / MaxHealth;
+
     }
 
     public void OnHitAbility(Player player)
@@ -138,6 +143,6 @@ public class Enemy : Buffable
 
             }
         }
-
+        healthBar.fillAmount = CurrentHealth / MaxHealth;
     }
 }

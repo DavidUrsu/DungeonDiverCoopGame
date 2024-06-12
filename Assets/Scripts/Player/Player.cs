@@ -5,9 +5,10 @@ using UnityEngine;
 public abstract class Player : Buffable
 {
 
-    private Dictionary<Potion ,int> Inventory = new Dictionary<Potion, int>();
+    private Dictionary<string ,int> Inventory = new Dictionary<string, int>();
     private Potion[] InventorySlots;
     private int numSlots = 4, emptySlots;
+    public InventoryUIManager man;
     public abstract void Attack();
 
     public abstract void Ability();
@@ -23,9 +24,9 @@ public abstract class Player : Buffable
     }
     public void AddPotion(Potion pot)
     {   
-        if (Inventory.ContainsKey(pot)) 
+        if (Inventory.ContainsKey(pot.GetEffect().Type())) 
            {
-            Inventory[pot] += 1;
+            Inventory[pot.GetEffect().Type()] += 1;
            }
         else 
            {
@@ -46,9 +47,11 @@ public abstract class Player : Buffable
                     }
                 }
 
-                Inventory.Add(pot, 1);
+                Inventory.Add(pot.GetEffect().Type(), 1);
             }
            }
+
+        man.updateUI(Inventory, InventorySlots);
     }
 
     public void UsePotion(int Slot) 
@@ -60,17 +63,18 @@ public abstract class Player : Buffable
         else
         {
             Potion pot = InventorySlots[Slot];
-            Inventory[pot] -= 1;
+            Inventory[pot.GetEffect().Type()] -= 1;
 
             AddEffect(pot.GetEffect());
 
-            if (Inventory[pot] <= 0)
+            if (Inventory[pot.GetEffect().Type()] <= 0)
             {
                 InventorySlots[Slot] = null;
                 emptySlots++;
-                Inventory.Remove(pot);
+                Inventory.Remove(pot.GetEffect().Type());
             }
         }
+        man.updateUI(Inventory, InventorySlots);
     }
     public void HitByEnemy(float dmg)
     {
