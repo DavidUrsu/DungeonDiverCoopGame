@@ -14,7 +14,6 @@ public class BuyableItem : MonoBehaviour
 
 	void Start()
 	{
-		player = GameObject.FindGameObjectWithTag("Player");
 		playerGoldSystem = GameObject.Find("Game Manager").GetComponent<GoldSystem>();
 
 		// Get the ItemPool from the GameManager
@@ -46,12 +45,29 @@ public class BuyableItem : MonoBehaviour
 
 		// Display the price
 		priceText.text = "Price: " + price;
+
+		// Find the player based on the selected character type
+		string selectedCharacter = PlayerPrefs.GetString("SelectedCharacter", "Mage");
+		GameObject[] potentialPlayers = GameObject.FindGameObjectsWithTag("Player");
+		foreach (GameObject potentialPlayer in potentialPlayers)
+		{
+			if (potentialPlayer.name.Contains(selectedCharacter))
+			{
+				player = potentialPlayer;
+				break; // Found the player, no need to continue the loop
+			}
+		}
+
+		if (player == null && potentialPlayers.Length > 0)
+		{
+			// Fallback to the first player object if no specific match is found
+			player = potentialPlayers[0];
+		}
 	}
-
-
 
 	void Update()
 	{
+
 		// Check if the player is near the item
 		if (Vector3.Distance(transform.position, player.transform.position) < 1f)
 		{
