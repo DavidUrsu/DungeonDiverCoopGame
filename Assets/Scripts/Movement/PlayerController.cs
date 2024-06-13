@@ -10,6 +10,7 @@ public class PlayerController : Moveable
     //I recommend 7 for the move speed, and 1.2 for the force damping
     public Rigidbody2D rb;
     private Player cls;
+    private float rotationSpeed = 0.1f;
     public float  dashSpeed;
     public float dashCooldown,dashTimer = 0, dashDuration,dashT = 0,attackTimer = 0,  abilityTimer = 0;
     Vector2 PlayerInput, PlayerInputDash;
@@ -28,9 +29,6 @@ public class PlayerController : Moveable
         cls = gameObject.GetComponent<Player>();
 
         cls.InitializeInventory();
-
-        for (int i = 0;i<4;i++)
-            useItems[i] = false;
 
 		// Set the camera's parent to the player object
 		mainCamera.transform.SetParent(transform);
@@ -177,6 +175,9 @@ public class PlayerController : Moveable
             mousePosition.y - transform.position.y
         );
 
-        transform.up = direction;
+        float angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg - 90f;
+        Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        transform.localRotation = Quaternion.Slerp(transform.localRotation,q,rotationSpeed);
     }
 }

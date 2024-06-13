@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class Enemy : Buffable
 {
-    public float  attackTimer = 0f;
+    public BossCounter counter;
+    public float attackTimer = 0f, abilityTimer = 0f;
     public GameObject[] players;
     public int[] agro;
     private float[] dist;
     private int maxAgro = 0, maxAgroIndex;
-    private EnemyController controller;
+    public EnemyController controller;
 
     public Image healthBar;
 
@@ -19,7 +20,6 @@ public class Enemy : Buffable
     {
 
         CurrentHealth = MaxHealth;
-
 
 
         controller = GetComponent<EnemyController>();
@@ -35,7 +35,7 @@ public class Enemy : Buffable
         //Calculate agro based on distance to players
         //Get the index of the player with max agro in order to follow him
         ProcessEffects();
-        for (int i = 0; i < players.Length; i++) 
+        for (int i = 0; i < players.Length; i++)
         {
             if (players[i] != null)
                 dist[i] = Vector2.Distance(this.transform.position, players[i].transform.position);
@@ -56,9 +56,9 @@ public class Enemy : Buffable
                     continue;
                 else
                     if (agro[i] - 2 <= 0)
-                        agro[i] = 1;
-                    else
-                        agro[i] -= 2;
+                    agro[i] = 1;
+                else
+                    agro[i] -= 2;
             }
 
             if (agro[i] > maxAgro)
@@ -75,6 +75,11 @@ public class Enemy : Buffable
         if (attackTimer < 0)
             attackTimer = 0;
 
+        healthBar.fillAmount = CurrentHealth / MaxHealth;
+
+        if (CurrentHealth < 0)
+            Destroy(gameObject);
+
     }
 
 
@@ -82,24 +87,64 @@ public class Enemy : Buffable
     {
         var player = collision.gameObject.GetComponent<Player>();
 
-        if (player != null && controller.IsKnocked == 0 && attackTimer <= 0) 
-        { 
+        if (player != null && controller.IsKnocked == 0 && attackTimer <= 0)
+        {
             collision.gameObject.SendMessage("HitByEnemy", AttackDamage);
             attackTimer = AttackCooldown;
         }
     }
-    public void OnHit(Player player)
+    public void OnHit((Player,string) pair)
     {
+        Player player = pair.Item1;
+        string name = pair.Item2;
+
+        if(name != null) 
+        {
+            switch (name) 
+            {
+                case "burn":
+                    {
+                        AddEffect(new Burn());
+                        break;
+                    }
+                case "movespeeddebuff":
+                    {
+                        AddEffect(new MoveSpeedDebuff());
+                        break;
+                    }
+                case "bleed":
+                    {
+                        AddEffect(new Bleed());
+                        break;
+                    }
+                case "freeze":
+                    {
+                        AddEffect(new Freeze());
+                        break;
+                    }
+            }
+        }
+
         CurrentHealth -= player.AttackDamage * (1 - DamageReduction);
 
         if (CurrentHealth <= 0)
         {
-            Debug.Log("Bleeah");
+            Boss1 boss = GetComponent<Boss1>();
+            Necromancer necro = GetComponent<Necromancer>();
+            if (necro != null)
+                counter.RemainingBosses--;
+
+            if (boss != null)
+            {
+                Boss1.numberOfEntities--;
+                if (Boss1.numberOfEntities == 0)
+                    counter.RemainingBosses--;
+            }
+
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("Hit for " + player.AttackDamage * (1 - DamageReduction) + " " + CurrentHealth + " left");
 
             for(int i = 0; i < players.Length;i++)
             {
@@ -108,28 +153,65 @@ public class Enemy : Buffable
                 if (playerOnObj == player)
                 {
                     agro[i] += (int)(100 * player.AttackDamage);
-                    Debug.Log(agro[i] + "HIT");
                 }
                     
             }
         }
 
-        healthBar.fillAmount = CurrentHealth / MaxHealth;
 
     }
 
-    public void OnHitAbility(Player player)
+    public void OnHitAbility((Player,string) pair)
     {
+        Player player = pair.Item1;
+        string name = pair.Item2;
+
+        if (name != null)
+        {
+            switch (name)
+            {
+                case "burn":
+                    {
+                        AddEffect(new Burn());
+                        break;
+                    }
+                case "movespeeddebuff":
+                    {
+                        AddEffect(new MoveSpeedDebuff());
+                        break;
+                    }
+                case "bleed":
+                    {
+                        AddEffect(new Bleed());
+                        break;
+                    }
+                case "freeze":
+                    {
+                        AddEffect(new Freeze());
+                        break;
+                    }
+            }
+        }
+
         CurrentHealth -= player.AbilityDamage * (1 - DamageReduction);
 
         if (CurrentHealth <= 0)
         {
-            Debug.Log("Bleeah");
+            Boss1 boss = GetComponent<Boss1>();
+            Necromancer necro = GetComponent<Necromancer>();
+            if (necro != null)
+                counter.RemainingBosses--;
+            if (boss != null)
+            {
+                Boss1.numberOfEntities--;
+                if (Boss1.numberOfEntities == 0)
+                    counter.RemainingBosses--;
+            }
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("Hit for " + player.AbilityDamage * (1 - DamageReduction) + " " + CurrentHealth + " left");
+
 
             for (int i = 0; i < players.Length; i++)
             {
@@ -138,11 +220,9 @@ public class Enemy : Buffable
                 if (playerOnObj == player)
                 {
                     agro[i] += (int)(100 * player.AbilityDamage);
-                    Debug.Log(agro[i] + "HIT");
                 }
 
             }
         }
-        healthBar.fillAmount = CurrentHealth / MaxHealth;
     }
 }

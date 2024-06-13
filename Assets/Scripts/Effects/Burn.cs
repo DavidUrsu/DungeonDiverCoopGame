@@ -5,7 +5,7 @@ using UnityEngine;
 public class Burn : Effect
 {
     private float tickCooldown, lastTick,damagePerTick;
-    public Burn(float duration = 5f, float cooldown = 2f,float damage = 5f)
+    public Burn(float duration = 5f, float cooldown = 2f,float damage = 15f)
     {
         maxDuration = duration;
         tickCooldown = cooldown;
@@ -26,10 +26,6 @@ public class Burn : Effect
               lastTick = currentDuration;
               target.CurrentHealth -= damagePerTick * (1 - target.DamageReduction);
 
-              if(target.CurrentHealth <= 0)
-                {
-                    Destroy(target.gameObject);
-                }
         }
 
 

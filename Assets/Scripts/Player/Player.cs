@@ -13,6 +13,11 @@ public abstract class Player : Buffable
 
     public abstract void Ability();
 
+    public void Update()
+    {
+        if (CurrentHealth <= 0)
+            Destroy(gameObject);
+    }
     public void InitializeInventory()
     {
         InventorySlots = new Potion[4];
@@ -40,7 +45,6 @@ public abstract class Player : Buffable
                 {
                     if (InventorySlots[i] == null)
                     {
-                        Debug.Log(i);
                         InventorySlots[i] = pot;
                         emptySlots--;
                         break;
@@ -79,7 +83,6 @@ public abstract class Player : Buffable
     public void HitByEnemy(float dmg)
     {
         CurrentHealth -= dmg * (1 - DamageReduction);
-        Debug.Log("Player has " + CurrentHealth + "Health remaning");
         if (CurrentHealth <= 0)
             Destroy(gameObject);
     }
