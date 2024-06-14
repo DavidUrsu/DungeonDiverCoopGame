@@ -842,7 +842,7 @@ public class DungeonGenerator : MonoBehaviour
 			if (room.RoomType == "Boss")
 			{
 				// Choose a random position from the room
-				int randomIndex = Random.Range(0, room.TilePositions.Count);
+				int randomIndex = room.TilePositions.Count / 2;
 				Vector2 position = room.TilePositions[randomIndex];
 
 				// Spawn the boss

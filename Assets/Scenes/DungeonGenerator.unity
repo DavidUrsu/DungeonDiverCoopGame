@@ -302,6 +302,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5474208890727132688, guid: 281ca480e8224fb46b3640f45acb11fa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6792555814122690025, guid: 281ca480e8224fb46b3640f45acb11fa, type: 3}
       propertyPath: m_Name
       value: Mage
@@ -1355,7 +1359,7 @@ MonoBehaviour:
   sceneTilemap: {fileID: 1819431319}
   wallTilemap: {fileID: 1049582912}
   pathTile: {fileID: 11400000, guid: 48f47efe9fbd9754fb0181cd7d0f26b0, type: 2}
-  seed: 0
+  seed: 10
   SizeX: 250
   SizeY: 250
   spawnTries: 100

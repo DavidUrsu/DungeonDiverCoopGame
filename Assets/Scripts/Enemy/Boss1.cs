@@ -12,6 +12,7 @@ public class Boss1 : MonoBehaviour
     void Start()
     {
         en = GetComponent<Enemy>();
+        en.CurrentHealth = en.MaxHealth;
     }
     
     void Update()
@@ -31,7 +32,6 @@ public class Boss1 : MonoBehaviour
             Destroy(gameObject);
             numberOfEntities--;
         }
-
 
         healthBar.fillAmount = en.CurrentHealth / en.MaxHealth;
     }

@@ -34,7 +34,7 @@ public class Enemy : Buffable
     {
 		players = GameObject.FindGameObjectsWithTag("Player");
 
-        if (players.Length != 1)
+		if (players.Length != 1)
 			return;
 
 		//Calculate agro based on distance to players
@@ -91,10 +91,25 @@ public class Enemy : Buffable
             // add gold to the player
             gm.AddGold(Random.Range(10, 24));
 
-            Debug.Log(gm.ToString());
-            Debug.Log("Ajunge aici?");
+			Boss1 boss = GetComponent<Boss1>();
+			Necromancer necro = GetComponent<Necromancer>();
+			if (necro != null)
+			{
+				gm.GetComponent<DungeonGenerator>().bossesRemaining--;
+				gm.GetComponent<GoldSystem>().AddGold(500);
+			}
 
-            Destroy(gameObject);
+			if (boss != null)
+			{
+				Boss1.numberOfEntities--;
+				if (Boss1.numberOfEntities == 0)
+				{
+					gm.GetComponent<DungeonGenerator>().bossesRemaining--;
+					gm.GetComponent<GoldSystem>().AddGold(500);
+				}
+			}
+
+			Destroy(gameObject);
         }
 	}
 
@@ -114,7 +129,7 @@ public class Enemy : Buffable
         Player player = pair.Item1;
         string name = pair.Item2;
 
-        if(name != null) 
+		if (name != null) 
         {
             switch (name) 
             {
@@ -145,28 +160,11 @@ public class Enemy : Buffable
 
         if (CurrentHealth <= 0)
         {
-            Boss1 boss = GetComponent<Boss1>();
-            Necromancer necro = GetComponent<Necromancer>();
-            if (necro != null)
-            {
-                gm.GetComponent<DungeonGenerator>().bossesRemaining--;
-                    gm.GetComponent<GoldSystem>().AddGold(500);
-			}
-
-			if (boss != null)
-            {
-                Boss1.numberOfEntities--;
-                if (Boss1.numberOfEntities == 0)
-                {
-                    gm.GetComponent<DungeonGenerator>().bossesRemaining--;
-                    gm.GetComponent<GoldSystem>().AddGold(500);
-                }
-			}
+            
 
 		}
         else
         {
-
             for(int i = 0; i < players.Length;i++)
             {
                 Player playerOnObj = players[i].GetComponent<Player>();
@@ -178,7 +176,6 @@ public class Enemy : Buffable
                     
             }
         }
-
 
     }
 
@@ -218,22 +215,6 @@ public class Enemy : Buffable
 
         if (CurrentHealth <= 0)
         {
-            Boss1 boss = GetComponent<Boss1>();
-            Necromancer necro = GetComponent<Necromancer>();
-            if (necro != null)
-            {
-                gm.GetComponent<DungeonGenerator>().bossesRemaining--;
-                gm.GetComponent<GoldSystem>().AddGold(500);
-            }
-            if (boss != null)
-			{
-                Boss1.numberOfEntities--;
-                if (Boss1.numberOfEntities == 0)
-                {
-                    gm.GetComponent<DungeonGenerator>().bossesRemaining--;
-                    gm.GetComponent<GoldSystem>().AddGold(500);
-                }
-            }
         }
         else
         {
