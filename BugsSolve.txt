@@ -1,0 +1,15 @@
+Fix pentru Slime King (nu realiza corect cand Slime King murea pentru a accorda bani si a genera portalul)
+(Fisierul se numeste Boss1.cs in loc de SlimeKing.cs pentru ca numele ne-a venit dupa)
+https://github.com/DavidUrsu/DungeonDiverCoopGame/commit/bb9a722ffffee2bd4d542b6279ac802e916a181c#diff-f9cfeb49674a7e049182e45f0c2a33053613b0a4fc1f60d552e464f3ea2c285f
+
+Fix pentru rotatia jucatorului (cand se rotea sa urmareasca mouse-ul oscila intre 2 pozitii)
+(In fisierul PlayerController.cs functia faceMouse())
+https://github.com/DavidUrsu/DungeonDiverCoopGame/commit/e499d1b1180e0df82b7d17c2048f45b65c2918d9#diff-c6ae301490e1c67103f112f7073bfb8244139c7d9e7d43aa2b11f2643e540627
+
+Fix pentru systemul de efecte (efect mostenea MonoBehaviour, iar din acest motiv trebuiau sa fie atasate unui obiect)
+(Fisierul Effect.cs si derivatele lui precum Burn.cs Bleed.cs)
+https://github.com/DavidUrsu/DungeonDiverCoopGame/commit/e499d1b1180e0df82b7d17c2048f45b65c2918d9#diff-c6ae301490e1c67103f112f7073bfb8244139c7d9e7d43aa2b11f2643e540627  
+
+Fix incarcare harta(Utilizam o functie incompatibila cu build systemul de la unity, si nu ne incarca texturile de la harta)
+(Fisierul DungeonGenerator.cs linia 543)
+https://github.com/DavidUrsu/DungeonDiverCoopGame/commit/468dcc8e0a65a17bc2e92de1882a2ead9dd8b0bb#diff-8563efe66c85b30681d5e6e65c98e96843ae2b0230ec3377fb0496c4fd173e21
