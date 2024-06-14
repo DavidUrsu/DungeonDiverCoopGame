@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class Necromancer : MonoBehaviour
 {
     public GameObject skeletonPrefab;
     private Enemy en;
-    private GameObject target;
+    public GameObject target;
     private bool wantAttack, wantAbility;
     public Image healthBar;
     public GameObject particles;
@@ -18,6 +19,20 @@ public class Necromancer : MonoBehaviour
 
     void Update()
     {
+        // get the players in the scene
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length <= 1 && particles == null)
+        {
+            // get the child of the players[0] named "Particle System" and then disable it
+            particles = players[0].transform.GetChild(0).gameObject;
+            
+            particles.SetActive(false);
+        }
+            
+
+
+        if (GetComponent<EnemyController>().Target == null)
+			return;
         target = GetComponent<EnemyController>().Target;
         float dist = Vector2.Distance(this.transform.position, target.transform.position);
 

@@ -6,7 +6,7 @@ public class GoldSystem : MonoBehaviour
 
 	void Start()
 	{
-		Gold = 1000; // Start with 0 Gold
+		Gold = 0; // Start with 0 Gold
 	}
 
 	public void AddGold(int amount)

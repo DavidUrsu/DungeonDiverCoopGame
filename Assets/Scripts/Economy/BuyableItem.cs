@@ -18,7 +18,7 @@ public class BuyableItem : MonoBehaviour
 
 		// Get the ItemPool from the GameManager
 		itemPool = GameObject.Find("Game Manager").GetComponent<ItemPool>();
-		Debug.Log(itemPool.items.Count);
+		//Debug.Log(itemPool.items.Count);
 
 		// Create a new TextMesh object
 		GameObject textObject = new GameObject("PriceText");
@@ -104,37 +104,22 @@ public class BuyableItem : MonoBehaviour
 			// Give the item to the player
 			// This depends on how you're handling items in your game
 			// For example, you might add the item to the player's inventory
+			Player playerComponent = player.GetComponent<Player>();
 
 			switch (item.name)
 			{
 				case "DmgUp(Clone)":
-					Mage playerMage = player.GetComponent<Mage>();
-					Knight playerKnight = player.GetComponent<Knight>();
-					if (playerMage != null)
-					{
-						playerMage.AttackDamage *= 1.1f;
-					}
-					else if (playerKnight != null)
-					{
-						playerKnight.AttackDamage *= 1.1f;
-					}
+					playerComponent.AttackDamage *= 1.1f;
 					break;
 				case "HpUp(Clone)":
-					Mage mage = player.GetComponent<Mage>();
-					Knight knight = player.GetComponent<Knight>();
-					if (mage != null)
-					{
-						mage.MaxHealth *= 1.1f;
-						mage.CurrentHealth = mage.MaxHealth;
-					}
-					else if (knight != null)
-					{
-						knight.MaxHealth *= 1.1f;
-						knight.CurrentHealth = knight.MaxHealth;
-					}
+					playerComponent.MaxHealth *= 1.1f;
+					playerComponent.CurrentHealth = playerComponent.MaxHealth;
 					break;
-				case "HealthPotion(Clone)":
-					// TODO: Add health potion to player's inventory
+				case "potion_Health(Clone)":
+					Debug.Log("Adding Health Potion");
+					Sprite sprite = Resources.Load<Sprite>("Sprites/potion_Health");
+
+					playerComponent.AddPotion(new Potion(new HoT(), sprite));
 					break;
 
 			}

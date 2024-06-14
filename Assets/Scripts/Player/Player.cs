@@ -31,6 +31,7 @@ public abstract class Player : Buffable
     {   
         if (Inventory.ContainsKey(pot.GetEffect().Type())) 
            {
+            Debug.Log("Adding extra potion");
             Inventory[pot.GetEffect().Type()] += 1;
            }
         else 
@@ -41,6 +42,7 @@ public abstract class Player : Buffable
             }
             else
             {
+                Debug.Log("Adding potion");
                 for (int i = 0; i < numSlots; i++) 
                 {
                     if (InventorySlots[i] == null)
@@ -84,7 +86,12 @@ public abstract class Player : Buffable
     {
         CurrentHealth -= dmg * (1 - DamageReduction);
         if (CurrentHealth <= 0)
+        {
             Destroy(gameObject);
+
+            // Load the Main Menu scene
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        }
     }
 }
 

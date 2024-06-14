@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: a7636eb5f6f62fa4bbaa5adf77ca1f0e
+guid: d84f2efcd9101a14e8ccdf1e31757bd0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -106,11 +106,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Shop_Tileset_0
+      name: Boss_Tileset_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45b261814b3d22244ae215997954bba7
-      internalID: -2039554029
+      spriteID: cb3ce7095ec42614e9a0a105fdb28cb3
+      internalID: -29569648
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_1
+      name: Boss_Tileset_1
       rect:
         serializedVersion: 2
         x: 16
@@ -145,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d68e2d5b81add7845973ba12e61816d3
-      internalID: 1669209414
+      spriteID: 24212bb97c4018c4b802c42ac7e1783b
+      internalID: -500679626
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_2
+      name: Boss_Tileset_2
       rect:
         serializedVersion: 2
         x: 32
@@ -166,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57b4c7d9522925f47b41a851dc8c5b4e
-      internalID: 1258411034
+      spriteID: 57faa1ece6da9074dba6e239cc1017fa
+      internalID: 1931255066
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_3
+      name: Boss_Tileset_3
       rect:
         serializedVersion: 2
         x: 48
@@ -187,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c50e1d565105b4348a216229e110cf10
-      internalID: -327658377
+      spriteID: 6077547f93d355f4f87c1e489a4da9d0
+      internalID: 2106350749
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_4
+      name: Boss_Tileset_4
       rect:
         serializedVersion: 2
         x: 0
@@ -208,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1aa984c11d8c18a49a4ddbe47926722c
-      internalID: -298084170
+      spriteID: b7dcffecb5e079d41b08d62137c1598d
+      internalID: 1906354962
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_5
+      name: Boss_Tileset_5
       rect:
         serializedVersion: 2
         x: 16
@@ -229,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f83011320302f7e4ab3481cd6c3243dc
-      internalID: 1963610063
+      spriteID: b0c5becd4f9500b4cb3584b276ecfecd
+      internalID: 892879680
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_6
+      name: Boss_Tileset_6
       rect:
         serializedVersion: 2
         x: 32
@@ -250,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf434012f065b7544a4caf07b1ef8021
-      internalID: 1972316796
+      spriteID: 891f3be223f75a24c81fa5ac9262ed03
+      internalID: -1527518689
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_7
+      name: Boss_Tileset_7
       rect:
         serializedVersion: 2
         x: 48
@@ -271,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe13a27a146c1cd4bb37bab499d161b7
-      internalID: -840354092
+      spriteID: 1dc13e67ac67929409cdb991646f360f
+      internalID: -425191815
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_8
+      name: Boss_Tileset_8
       rect:
         serializedVersion: 2
         x: 0
@@ -292,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26df14a242ec0374b84c4bb677fe2ed9
-      internalID: 2008891550
+      spriteID: b37581ef8245fd94c9949f6924a828fe
+      internalID: -812083255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_9
+      name: Boss_Tileset_9
       rect:
         serializedVersion: 2
         x: 16
@@ -313,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cf78400401c00a478f40f26e0b9678c
-      internalID: 1292702986
+      spriteID: 1e81f0449c7ccf848848863bc2c30d0f
+      internalID: 723111040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_10
+      name: Boss_Tileset_10
       rect:
         serializedVersion: 2
         x: 32
@@ -334,14 +347,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc6f806f82c4833439fd5ac45264a273
-      internalID: -1289759827
+      spriteID: 997472e198697dc458a15bcdbf8484f3
+      internalID: -1338802050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_11
+      name: Boss_Tileset_11
       rect:
         serializedVersion: 2
         x: 48
@@ -355,14 +368,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 258c87fc053cfec4295b2aaa2a23fe5d
-      internalID: 1418804866
+      spriteID: 93acf2e628acb5845907c7f8a3c2ab15
+      internalID: 1462007788
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_12
+      name: Boss_Tileset_12
       rect:
         serializedVersion: 2
         x: 0
@@ -376,14 +389,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 760e4a04bd72b9f49a6b49bdf1187192
-      internalID: -1694309846
+      spriteID: 5f8ebe78a10482b43a8b25b8b8ec30ce
+      internalID: -2145540649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_13
+      name: Boss_Tileset_13
       rect:
         serializedVersion: 2
         x: 16
@@ -397,14 +410,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab9c2b18ab55ceb4cb017e223a878681
-      internalID: 324807463
+      spriteID: 304e0e50632fe7447a1324d9996d9834
+      internalID: -1676885333
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_14
+      name: Boss_Tileset_14
       rect:
         serializedVersion: 2
         x: 32
@@ -418,14 +431,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c963bb9b63912444be76a2fdb2bbd17
-      internalID: 1179663095
+      spriteID: 074cb656bdefd5f48a95b267ea35537c
+      internalID: -1203943243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop_Tileset_15
+      name: Boss_Tileset_15
       rect:
         serializedVersion: 2
         x: 48
@@ -439,8 +452,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d08e29a340124004886c01175e12b864
-      internalID: 1203174696
+      spriteID: 6ed37fa5d99a0bb44b6acd3ab37d3785
+      internalID: -762774788
       vertices: []
       indices: 
       edges: []
@@ -456,22 +469,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Shop_Tileset_0: -2039554029
-      Shop_Tileset_1: 1669209414
-      Shop_Tileset_10: -1289759827
-      Shop_Tileset_11: 1418804866
-      Shop_Tileset_12: -1694309846
-      Shop_Tileset_13: 324807463
-      Shop_Tileset_14: 1179663095
-      Shop_Tileset_15: 1203174696
-      Shop_Tileset_2: 1258411034
-      Shop_Tileset_3: -327658377
-      Shop_Tileset_4: -298084170
-      Shop_Tileset_5: 1963610063
-      Shop_Tileset_6: 1972316796
-      Shop_Tileset_7: -840354092
-      Shop_Tileset_8: 2008891550
-      Shop_Tileset_9: 1292702986
+      Boss_Tileset_0: -29569648
+      Boss_Tileset_1: -500679626
+      Boss_Tileset_10: -1338802050
+      Boss_Tileset_11: 1462007788
+      Boss_Tileset_12: -2145540649
+      Boss_Tileset_13: -1676885333
+      Boss_Tileset_14: -1203943243
+      Boss_Tileset_15: -762774788
+      Boss_Tileset_2: 1931255066
+      Boss_Tileset_3: 2106350749
+      Boss_Tileset_4: 1906354962
+      Boss_Tileset_5: 892879680
+      Boss_Tileset_6: -1527518689
+      Boss_Tileset_7: -425191815
+      Boss_Tileset_8: -812083255
+      Boss_Tileset_9: 723111040
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

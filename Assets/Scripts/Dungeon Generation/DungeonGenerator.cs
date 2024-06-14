@@ -61,6 +61,16 @@ public class DungeonGenerator : MonoBehaviour
 
 	public GameObject[] enemys;
 
+	public GameObject buyableItemPrefab;
+
+	public GameObject[] shopKeepers;
+
+	public int bossesRemaining = 0;
+
+	public GameObject portal;
+
+	public GameObject[] bosses;
+
 	public class RoomData
 	{
 		public string RoomType { get; set; }
@@ -257,7 +267,7 @@ public class DungeonGenerator : MonoBehaviour
 
 			if (thisRoomSpawnTries == 0)
 			{
-				Debug.Log($"Could not spawn room with symbol: {roomMapSymbol}");
+				//Debug.Log($"Could not spawn room with symbol: {roomMapSymbol}");
 			}
 		}
 
@@ -530,8 +540,7 @@ public class DungeonGenerator : MonoBehaviour
 
 		tileDictionary = new Dictionary<string, List<TileBase>>();
 
-		string tilesDirectoryPath = Application.dataPath + "/Resources/Tiles";
-		string[] tileDirectories = Directory.GetDirectories(tilesDirectoryPath);
+		string[] tileDirectories = new string[] { "Boss", "End", "Enemy", "MainMenu", "Path", "Revive", "Shop", "Spawn", "Test Camere" };
 
 		foreach (string tileDirectory in tileDirectories)
 		{
@@ -713,22 +722,54 @@ public class DungeonGenerator : MonoBehaviour
 
 	public void SpawnPlayers()
 	{
+		//The good version in case of multiplayer
 		// Get the number of players
-		int numberOfPlayers = players.transform.childCount;
+		//int numberOfPlayers = players.transform.childCount;
 
 		// Get the positions to spawn the players
-		List<Vector2> spawnPositions = GetPositionsToSpawnPlayers(numberOfPlayers);
+		//List<Vector2> spawnPositions = GetPositionsToSpawnPlayers(numberOfPlayers);
 
 		// Spawn the players
-		for (int i = 0; i < numberOfPlayers; i++)
+		//for (int i = 0; i < numberOfPlayers; i++)
+		//{
+		//Debug.Log(spawnPositions[i]);
+		//Transform player = players.transform.GetChild(i);
+		//player.position = new Vector3(spawnPositions[i].x, spawnPositions[i].y, 0);
+		//}
+		// This is just a shit hole
+
+		// Get the selected character type from PlayerPrefs
+		string selectedCharacter = PlayerPrefs.GetString("SelectedCharacter", "Mage");
+
+		// Find the child prefab with the name matching the selected character
+		Transform selectedPrefab = players.transform.Find(selectedCharacter);
+
+		if (selectedPrefab != null)
 		{
-			Debug.Log(spawnPositions[i]);
-			Transform player = players.transform.GetChild(i);
-			player.position = new Vector3(spawnPositions[i].x, spawnPositions[i].y, 0);
+			// Instantiate or activate the selected prefab
+			// Assuming you want to instantiate it at a specific position, you can modify this part
+			List<Vector2> spawnPositions = GetPositionsToSpawnPlayers(1);
+			selectedPrefab.position = new Vector3(spawnPositions[0].x, spawnPositions[0].y, 0);
+
+			// Optionally set the instantiated player as a child of another GameObject in your scene
+			// instantiatedPlayer.transform.SetParent(someParentTransform, false);
+		}
+		else
+		{
+			Debug.LogError("Selected character prefab not found among players' children.");
+		}
+
+		// Destroy or deactivate other prefabs
+		foreach (Transform child in players.transform)
+		{
+			if (child != selectedPrefab)
+			{
+				Destroy(child.gameObject);
+			}
 		}
 	}
 
-    public int GenerateRandomEnemy()
+	public int GenerateRandomEnemy()
     {
 		int num = Random.Range(0, 100);
 
@@ -758,6 +799,55 @@ public class DungeonGenerator : MonoBehaviour
 					// Spawn the enemy
 					Instantiate(enemys[GenerateRandomEnemy()], new Vector3(position.x, position.y, 0), Quaternion.identity);
 				}
+			}
+		}
+	}
+
+	public void GenerateShopItems()
+	{
+		foreach (RoomData room in roomsData)
+		{
+			if (room.RoomType == "Shop")
+			{
+				// Spawn a random number of shop items
+				int numberOfItems = Random.Range(1, 4);
+				for (int i = 0; i < numberOfItems; i++)
+				{
+					// Choose a random position from the room
+					int randomIndex = Random.Range(0, room.TilePositions.Count);
+					Vector2 position = room.TilePositions[randomIndex];
+
+					// Spawn the shop item
+					GameObject newBuyableItems = Instantiate(buyableItemPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+				}
+
+				// spawn the shopkeeper
+				int randomIndexShopKeeper = Random.Range(0, shopKeepers.Length);
+				// Choose a random position from the room
+				int randomTileIndex = Random.Range(0, room.TilePositions.Count);
+				Vector2 positionShopKeeper = room.TilePositions[randomTileIndex];
+
+				// Spawn the shopkeeper
+				GameObject shopKeeper = Instantiate(shopKeepers[randomIndexShopKeeper], new Vector3(positionShopKeeper.x, positionShopKeeper.y, 0), Quaternion.identity);
+			}
+		}
+	}
+
+	void SpawnBosses()
+	{
+		int bossIndex = 0;
+
+		foreach(RoomData room in roomsData)
+		{
+			if (room.RoomType == "Boss")
+			{
+				// Choose a random position from the room
+				int randomIndex = Random.Range(0, room.TilePositions.Count);
+				Vector2 position = room.TilePositions[randomIndex];
+
+				// Spawn the boss
+				Instantiate(bosses[bossIndex], new Vector3(position.x, position.y, 0), Quaternion.identity);
+				bossIndex++;
 			}
 		}
 	}
@@ -796,6 +886,7 @@ public class DungeonGenerator : MonoBehaviour
 
 		// Generate boss rooms
 		GenerateRooms(bossRooms, 2, false, 3);
+		bossesRemaining = 2;
 
 		// Generate shop rooms
 		GenerateRooms(shopRooms, 12, true, 4);
@@ -808,7 +899,7 @@ public class DungeonGenerator : MonoBehaviour
 
 		GeneratePathsBetweenRooms();
 
-		PrintMapArray();
+		// PrintMapArray();
 
 		// Paint the map with the tiles
 		LoadTiles();
@@ -817,10 +908,42 @@ public class DungeonGenerator : MonoBehaviour
 		// Set the spawn point of the players
 		SpawnPlayers();
 
+		// spawn the bosses
+		SpawnBosses();
+
+		// Generate shop items
+		GenerateShopItems();
+
 		// Spawn the enemies
 		SpawnEnemies();
 
 		stopwatch.Stop();
-		Debug.Log($"Generation time: {stopwatch.ElapsedMilliseconds} ms");
+		//Debug.Log($"Generation time: {stopwatch.ElapsedMilliseconds} ms");
+	}
+
+	void Update()
+	{
+		// check if the bossesRemaning == 0 then spawns a portal
+		if (bossesRemaining == 0)
+		{
+			// Find the End Room in the roomsData
+			RoomData endRoom = roomsData.Find(room => room.RoomType == "End");
+
+			// Choose a random position from the room
+			int randomIndex = Random.Range(0, endRoom.TilePositions.Count);
+			Vector2 position = endRoom.TilePositions[randomIndex];
+
+			// Spawn the portal
+			Instantiate(portal, new Vector3(position.x, position.y, 0), Quaternion.identity);
+
+			bossesRemaining = -1;
+		}
+
+		// if the portal is spawned, spin the portal
+		if (GameObject.Find("Portal(Clone)") != null)
+		{
+			GameObject portal = GameObject.Find("Portal(Clone)");
+			portal.transform.Rotate(0, 0, 0.1f);
+		}
 	}
 }

@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 607ac49b79a2df640b23615b0663d8a9
+guid: 300a81c9b8db6d34f932de79d31cf3b1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -106,11 +106,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Revive_Tileset__0
+      name: End_Tileset__0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,77 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 778ba1f2775c8bb46a719299587d5cbc
-      internalID: -1871072281
+      spriteID: 3321deff492b5b24fac48d0a01ef35b3
+      internalID: -914288904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec95b5199ab0d394396803a3bec8462b
-      internalID: 1246591403
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Revive_Tileset__2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ab632c2ee991aed47a2e4578b0cdd77f
-      internalID: -1079201004
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Revive_Tileset__3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a27ff7c1118a1e4eb448e18e715c4bd
-      internalID: 823782733
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Revive_Tileset__4
+      name: End_Tileset__1
       rect:
         serializedVersion: 2
         x: 0
@@ -208,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ce7f37186c02e54fadcd5470fa6f219
-      internalID: -1748270965
+      spriteID: d69aea3bf489d3f4b980f5906270551c
+      internalID: -1235268169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__5
+      name: End_Tileset__2
       rect:
         serializedVersion: 2
         x: 16
@@ -229,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40fdd32d0b7d8b04eb24ddb526d34c9c
-      internalID: 489616096
+      spriteID: 16a1c2decb4429642ac642ee0f38b7fb
+      internalID: -1442502717
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__6
+      name: End_Tileset__3
       rect:
         serializedVersion: 2
         x: 32
@@ -250,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52f56181711c9974ab9ebe8f4f85acae
-      internalID: 1084669824
+      spriteID: f2be4a0ffa8a3d64ab964fd1d54b58fa
+      internalID: -1970192525
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__7
+      name: End_Tileset__4
       rect:
         serializedVersion: 2
         x: 48
@@ -271,14 +221,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14ad6dc168b3c4a4cb307804f84c7685
-      internalID: -1918207400
+      spriteID: ee1c181a7903d6043942af5bb7bde4e2
+      internalID: -1725178755
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__8
+      name: End_Tileset__5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18d9c07316e60d942a3be1b39c62e54b
+      internalID: -1344627825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: End_Tileset__6
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31f535ad6e33c3042a725c7fc3c5c1e8
+      internalID: 1296005327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: End_Tileset__7
       rect:
         serializedVersion: 2
         x: 0
@@ -292,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b577f1f37023bd848bcec468cabbf95a
-      internalID: 414600748
+      spriteID: db3ec2488db663942b1d4ed65b69eab1
+      internalID: 1504911558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__9
+      name: End_Tileset__8
       rect:
         serializedVersion: 2
         x: 16
@@ -313,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 179c7e1e7342b7f44890096a85142e08
-      internalID: 1986647574
+      spriteID: 6788500f0031d2a4895d989efa224558
+      internalID: -195371831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__10
+      name: End_Tileset__9
       rect:
         serializedVersion: 2
         x: 32
@@ -334,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4592ac85e4d87814eaab0112ac63a181
-      internalID: -170240522
+      spriteID: 2295fcf5fd64a3a4ca1a768b89e1392f
+      internalID: 1673622705
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Revive_Tileset__11
+      name: End_Tileset__10
       rect:
         serializedVersion: 2
         x: 48
@@ -355,8 +347,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 240ad71b9ed17c24fbb4d7eb1f456c90
-      internalID: 49128953
+      spriteID: 77a4568251c4e3240bf834fdffc00ffe
+      internalID: -159438143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: End_Tileset__11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91fce6f02e9ca4e4f9fbb5bfd80f3bca
+      internalID: 743004185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: End_Tileset__12
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a802b14560941f499bb8a7fe3b87fab
+      internalID: 645188779
       vertices: []
       indices: 
       edges: []
@@ -372,18 +406,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Revive_Tileset__0: -1871072281
-      Revive_Tileset__1: 1246591403
-      Revive_Tileset__10: -170240522
-      Revive_Tileset__11: 49128953
-      Revive_Tileset__2: -1079201004
-      Revive_Tileset__3: 823782733
-      Revive_Tileset__4: -1748270965
-      Revive_Tileset__5: 489616096
-      Revive_Tileset__6: 1084669824
-      Revive_Tileset__7: -1918207400
-      Revive_Tileset__8: 414600748
-      Revive_Tileset__9: 1986647574
+      End_Tileset__0: -914288904
+      End_Tileset__1: -1235268169
+      End_Tileset__10: -159438143
+      End_Tileset__11: 743004185
+      End_Tileset__12: 645188779
+      End_Tileset__2: -1442502717
+      End_Tileset__3: -1970192525
+      End_Tileset__4: -1725178755
+      End_Tileset__5: -1344627825
+      End_Tileset__6: 1296005327
+      End_Tileset__7: 1504911558
+      End_Tileset__8: -195371831
+      End_Tileset__9: 1673622705
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

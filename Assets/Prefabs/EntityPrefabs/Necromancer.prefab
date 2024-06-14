@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
   m_Color: {r: 0.6445184, g: 0, b: 1, a: 1}
   m_FlipX: 0
@@ -103,7 +103,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonPrefab: {fileID: 8419767736664084079, guid: a1dd677183086b64689fc79e818adf76, type: 3}
+  target: {fileID: 0}
   healthBar: {fileID: 7915812493347834632}
+  particles: {fileID: 0}
 --- !u!114 &5043644917222406522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,14 +145,13 @@ MonoBehaviour:
   MoveSpeed: 1
   AttackCooldown: 5
   AbilityCooldown: 15
-  effects: []
-  counter: {fileID: 0}
   attackTimer: 0
   abilityTimer: 0
   players: []
   agro: 
   controller: {fileID: 0}
   healthBar: {fileID: 7915812493347834632}
+  gm: {fileID: 0}
 --- !u!50 &2652754725264601751
 Rigidbody2D:
   serializedVersion: 4

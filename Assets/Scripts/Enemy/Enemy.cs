@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Enemy : Buffable
 {
-    public BossCounter counter;
     public float attackTimer = 0f, abilityTimer = 0f;
     public GameObject[] players;
     public int[] agro;
@@ -15,27 +14,32 @@ public class Enemy : Buffable
 
     public Image healthBar;
 
+    public GameObject gm;
 
     public void Start()
     {
-
         CurrentHealth = MaxHealth;
 
 
         controller = GetComponent<EnemyController>();
         controller.MoveSpeed = MoveSpeed;
-        players = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(players.Length);
 
-        agro = new int[players.Length];
-        dist = new float[players.Length];
+        agro = new int[1];
+        dist = new float[1];
+
+        gm = GameObject.Find("Game Manager");
     }
 
     private void Update()
     {
-        //Calculate agro based on distance to players
-        //Get the index of the player with max agro in order to follow him
-        ProcessEffects();
+		players = GameObject.FindGameObjectsWithTag("Player");
+
+        if (players.Length != 1)
+			return;
+
+		//Calculate agro based on distance to players
+		//Get the index of the player with max agro in order to follow him
+		ProcessEffects();
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i] != null)
@@ -79,9 +83,20 @@ public class Enemy : Buffable
         healthBar.fillAmount = CurrentHealth / MaxHealth;
 
         if (CurrentHealth < 0)
-            Destroy(gameObject);
+        {
+            // find the gameObject named Game Manager
+            GameObject gameManager = GameObject.Find("Game Manager");
+            // get the script component of the Game Manager
+            GoldSystem gm = gameManager.GetComponent<GoldSystem>();
+            // add gold to the player
+            gm.AddGold(Random.Range(10, 24));
 
-    }
+            Debug.Log(gm.ToString());
+            Debug.Log("Ajunge aici?");
+
+            Destroy(gameObject);
+        }
+	}
 
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -133,17 +148,22 @@ public class Enemy : Buffable
             Boss1 boss = GetComponent<Boss1>();
             Necromancer necro = GetComponent<Necromancer>();
             if (necro != null)
-                counter.RemainingBosses--;
+            {
+                gm.GetComponent<DungeonGenerator>().bossesRemaining--;
+                    gm.GetComponent<GoldSystem>().AddGold(500);
+			}
 
-            if (boss != null)
+			if (boss != null)
             {
                 Boss1.numberOfEntities--;
                 if (Boss1.numberOfEntities == 0)
-                    counter.RemainingBosses--;
-            }
+                {
+                    gm.GetComponent<DungeonGenerator>().bossesRemaining--;
+                    gm.GetComponent<GoldSystem>().AddGold(500);
+                }
+			}
 
-            Destroy(gameObject);
-        }
+		}
         else
         {
 
@@ -201,14 +221,19 @@ public class Enemy : Buffable
             Boss1 boss = GetComponent<Boss1>();
             Necromancer necro = GetComponent<Necromancer>();
             if (necro != null)
-                counter.RemainingBosses--;
-            if (boss != null)
             {
+                gm.GetComponent<DungeonGenerator>().bossesRemaining--;
+                gm.GetComponent<GoldSystem>().AddGold(500);
+            }
+            if (boss != null)
+			{
                 Boss1.numberOfEntities--;
                 if (Boss1.numberOfEntities == 0)
-                    counter.RemainingBosses--;
+                {
+                    gm.GetComponent<DungeonGenerator>().bossesRemaining--;
+                    gm.GetComponent<GoldSystem>().AddGold(500);
+                }
             }
-            Destroy(gameObject);
         }
         else
         {
