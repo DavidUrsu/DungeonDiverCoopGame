@@ -27,6 +27,7 @@ public class Enemy : Buffable
         controller = GetComponent<EnemyController>();
         controller.MoveSpeed = MoveSpeed;
         players = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log(players.Length);
 
         agro = new int[players.Length];
         dist = new float[players.Length];
