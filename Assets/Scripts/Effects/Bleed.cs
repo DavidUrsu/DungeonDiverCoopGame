@@ -28,12 +28,7 @@ public class Bleed : Effect
 
             lastTick = currentDuration;
             target.CurrentHealth -= damagePerTick * (1 - target.DamageReduction);
-            Debug.Log("Hit for " + damagePerTick + "at tick " + lastTick);
 
-            if (target.CurrentHealth <= 0)
-            {
-                Destroy(target.gameObject);
-            }
         }
 
     }

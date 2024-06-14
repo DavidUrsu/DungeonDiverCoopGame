@@ -17,7 +17,7 @@ public class Knight :Player
         AbilityCooldown = 3f;
         MoveSpeed = 5f;
     }
-    public void Ena()
+    private void Ena()
     {
         manager.enabled = false;
     }
@@ -30,7 +30,7 @@ public class Knight :Player
 
     public override void Ability()
     {
-        Enemy[] enemys = GameObject.FindObjectsOfType<Enemy>();
+        Enemy[] enemys = FindObjectsOfType<Enemy>();
 
         foreach(Enemy enemy in enemys) 
         {
@@ -39,8 +39,8 @@ public class Knight :Player
             if (dist <= 7) 
             {
                 int index = Array.IndexOf(enemy.players, gameObject);
-                Debug.Log("Hit by taunt " + dist);
                 enemy.agro[index] += 10000;
+                enemy.AddEffect(new MoveSpeedDebuff());
             }
         }
     }

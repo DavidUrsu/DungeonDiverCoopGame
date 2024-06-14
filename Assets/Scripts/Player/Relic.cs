@@ -35,6 +35,7 @@ public class Relic : MonoBehaviour
                     }
                     else
                         cls.CurrentHealth += HealAmount;
+                    cls.AddEffect(new MoveSpeedBuff());
                 }
             }
         }

@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class NormalFireball : ProjectileManger
 {
+    public string Name;
+    public float chance;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var enemy = collision.gameObject.GetComponent<Enemy>();
-
+        (Player, string) pair;
         if (enemy != null)
         {
-            collision.gameObject.SendMessage("OnHit", player);
+            if (Random.Range(0f, 1f) < chance)
+            {
+                pair = (player, Name);
+            }
+            else
+            {
+                pair = (player, "");
+            }
+
+
+
+
+            collision.gameObject.SendMessage("OnHit", pair);
         }
         Destroy(gameObject);
     }
