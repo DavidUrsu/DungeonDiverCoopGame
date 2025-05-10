@@ -1359,7 +1359,7 @@ MonoBehaviour:
   sceneTilemap: {fileID: 1819431319}
   wallTilemap: {fileID: 1049582912}
   pathTile: {fileID: 11400000, guid: 48f47efe9fbd9754fb0181cd7d0f26b0, type: 2}
-  seed: 10
+  seed: 0
   SizeX: 250
   SizeY: 250
   spawnTries: 100
