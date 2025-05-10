@@ -1,5 +1,8 @@
 # Core Mechanics
 
+## Link Demo
+- https://youtu.be/UjaaVMv1kng
+
 ## Movement
 - [x]  **WASD**
 - [x]  **Dash**: space
@@ -22,7 +25,7 @@
 - []  Viata medie, viteza medie, de distanta, damage mediu
 
 ## Loot (Gold and Crafting Mats)
-- []  Gold on mob kill
+- [x]  Gold on mob kill
 - []  Chest
   - []  gold
   - []  potions
@@ -43,7 +46,7 @@
 
 ## Room Design
 - [x]  Shop
-- []  Boss fight- [] uri
+- [x]  Boss fight- [] uri
 - [x]  Exit room
 - [x]  Start Room
 - []  Respawn Room
@@ -59,14 +62,14 @@
 # Progression
 
 ## Upgrade System
-- []  Upgrade de Abilitate
-- []  Upgrade de Atac
+- [x]  Upgrade de Abilitate
+- [x]  Upgrade de Atac
 - []  Upgrade- [] uri useless de fun
-- []  Upgrade de Health
+- [x]  Upgrade de Health
 
 ## Crafting System
-- []  Potiuni 
-  - []  Heal
-  - []  Damage
-  - []  Movement speed
+- [x]  Potiuni 
+  - [x]  Heal
+  - [x]  Damage
+  - [x]  Movement speed
 ```
