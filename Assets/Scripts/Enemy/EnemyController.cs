@@ -48,5 +48,11 @@ public class EnemyController : Moveable
 
         transform.localRotation = Quaternion.Slerp(transform.localRotation, q, roatationSpeed);
 
-    }
+		// Force the rotation of the child object (Mage sprite) to be fixed
+		GameObject textureSprite = transform.GetChild(1).gameObject;
+		textureSprite.transform.rotation = Quaternion.Euler(0, 0, 0);
+        GameObject healthBar = transform.GetChild(0).gameObject;
+		healthBar.transform.rotation = Quaternion.Euler(0, 0, 0);
+        healthBar.transform.localPosition = new Vector3(0, -0.61f, 0);
+	}
 }

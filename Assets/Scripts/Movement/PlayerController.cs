@@ -183,5 +183,9 @@ public class PlayerController : Moveable
         Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
 
         transform.localRotation = Quaternion.Slerp(transform.localRotation,q,rotationSpeed);
-    }
+
+		// Force the rotation of the child object (Mage sprite) to be fixed
+        GameObject textureSprite = transform.GetChild(1).gameObject;
+        textureSprite.transform.rotation = Quaternion.Euler(0, 0, 0);
+	}
 }
